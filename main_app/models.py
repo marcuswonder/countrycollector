@@ -7,3 +7,6 @@ class Country(models.Model):
     region = models.CharField(max_length=100)
     capital_city = models.CharField(max_length=100)
     population = models.IntegerField()
+
+    def __str__(self):
+        return self.name
