@@ -18,6 +18,10 @@
         <p>Category: Small Country</p>
     {% endif %}
   </div>
+  <div class="card-action">
+    <a href="{% url 'countries_update' country.id %}">Edit</a>
+    <a href="{% url 'countries_delete' country.id %}">Delete</a>
+  </div>
 </div>
 
 {% endblock %}
