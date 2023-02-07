@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Visited Country Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ country.name }}</span>
+    <p>Continent: {{ country.continent }}</p>
+    <p>Region: {{ country.region }}</p>
+    <p>Capital City: {{ country.capital_city }}</p>
+    <p>Population: {{ country.population|floatformat:0 }}</p>
+    {% if country.population > 200000000 %}
+        <p>Category: Large Country</p>
+    {% elif country.population > 50000000 %}
+        <p>Category: Large Country</p>
+    {% else %}
+        <p>Category: Small Country</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
