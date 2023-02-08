@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from .models import Visit
+from .models import Trip
 
-class VisitForm(ModelForm):
+class TripForm(ModelForm):
   class Meta:
-    model = Visit
+    model = Trip
     fields = ['title', 'start', 'end', 'highlight', 'roadtrip', 'purpose']

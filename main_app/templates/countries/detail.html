@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Visited Country Details</h1>
+<h1>Country Details</h1>
 
 <div class="card">
   <div class="card-content">
@@ -24,28 +24,28 @@
   </div>
 </div>
 
-<h1>Previous & Upcoming Visits</h1>
-  {% for visit in country.visit_set.all %}
+<h1>Previous & Upcoming Trips</h1>
+  {% for trip in country.trips_set.all %}
     <div class="card">
       <div class="card-content">
-        <span class="card-title">{{ visit.title }}</span>
-        <p>Trip Purpose: {{ visit.get_purpose_display }}</p>
-        <p>Start Date: {{ visit.start }}</p>
-        <p>End Date: {{ visit.end }}</p>
-        <p>Highlight: {{ visit.highlight }}</p>
-        <p>Roadtrip: {{ visit.get_roadtrip_display }}</p>  
+        <span class="card-title">{{ trip.title }}</span>
+        <p>Trip Purpose: {{ trip.get_purpose_display }}</p>
+        <p>Start Date: {{ trip.start }}</p>
+        <p>End Date: {{ trip.end }}</p>
+        <p>Highlight: {{ trip.highlight }}</p>
+        <p>Roadtrip: {{ trip.get_roadtrip_display }}</p>  
       </div>
     </div>  
   {% endfor %}
 
 <br>
-<h2>Add a visit!</h2>
+<h2>Add a Trip!</h2>
 <div class="card">
   <div class="card-content">
-    <form action="{% url 'add_visit' country.id %}" method="POST" novalidate>
+    <form action="{% url 'add_trip' country.id %}" method="POST" novalidate>
       {% csrf_token %}
-      {{ visit_form.as_p }}
-      <input type="submit" class="btn" value="Add Visit">
+      {{ trip_form.as_p }}
+      <input type="submit" class="btn" value="Add Trip">
     </form>
   </div>
 </div>

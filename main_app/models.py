@@ -30,7 +30,24 @@ class Country(models.Model):
         verbose_name_plural = "countries"
 
 
-class Visit(models.Model):
+class City(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    population = models.IntegerField()
+    
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = "cities"
+
+    def get_absolute_url(self):
+        return reverse('city_detail', kwargs={'pk': self.id})
+
+
+class Trip(models.Model):
     title = models.CharField(max_length=100)
     start = models.DateField('Start Date')
     end = models.DateField('End Date')
@@ -48,8 +65,15 @@ class Visit(models.Model):
 
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
+    cities = models.ManyToManyField(City)
+
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('trip', kwargs={'pk': self.id})
+
     class Meta:
         ordering = ['-start']
+
+
