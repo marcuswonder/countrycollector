@@ -7,6 +7,11 @@ PURPOSES = (
     ('B', 'Business')
 )
 
+ROADTRIP = (
+    ('Y', 'Yes'),
+    ('N', 'No')
+)
+
 # Create your models here.
 class Country(models.Model):
     name = models.CharField(max_length=100)
@@ -30,7 +35,11 @@ class Visit(models.Model):
     start = models.DateField('Start Date')
     end = models.DateField('End Date')
     highlight = models.TextField(max_length=250)
-    roadtrip = models.BooleanField('Roadtrip')
+    roadtrip = models.CharField(
+        max_length=1,
+        choices=ROADTRIP,
+        default=ROADTRIP[1][0]
+    )
     purpose = models.CharField(        
         max_length=1,
         choices=PURPOSES,
@@ -40,7 +49,7 @@ class Visit(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.get_purpose_display()} visit starting on {self.start}"
+        return self.title
 
     class Meta:
         ordering = ['-start']

@@ -33,7 +33,7 @@
         <p>Start Date: {{ visit.start }}</p>
         <p>End Date: {{ visit.end }}</p>
         <p>Highlight: {{ visit.highlight }}</p>
-        <p>Roadtrip: {{ visit.roadtrip }}</p>  
+        <p>Roadtrip: {{ visit.get_roadtrip_display }}</p>  
       </div>
     </div>  
   {% endfor %}
@@ -42,7 +42,7 @@
 <h2>Add a visit!</h2>
 <div class="card">
   <div class="card-content">
-    <form action="{% url 'add_visit' country.id %}" method="POST">
+    <form action="{% url 'add_visit' country.id %}" method="POST" novalidate>
       {% csrf_token %}
       {{ visit_form.as_p }}
       <input type="submit" class="btn" value="Add Visit">
@@ -71,8 +71,7 @@
   M.FormSelect.init(purposeEl);
 
   const roadtripEl = document.getElementById('id_roadtrip');
-  console.log(roadtripEl)
-  M.CheckBox.init(roadtripEl);
+  M.FormSelect.init(roadtripEl);
 </script>
 
 {% endblock %}
