@@ -24,21 +24,55 @@
   </div>
 </div>
 
+<h1>Previous & Upcoming Visits</h1>
+  {% for visit in country.visit_set.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ visit.title }}</span>
+        <p>Trip Purpose: {{ visit.get_purpose_display }}</p>
+        <p>Start Date: {{ visit.start }}</p>
+        <p>End Date: {{ visit.end }}</p>
+        <p>Highlight: {{ visit.highlight }}</p>
+        <p>Roadtrip: {{ visit.roadtrip }}</p>  
+      </div>
+    </div>  
+  {% endfor %}
 
-  <h1>Previous & Upcoming Visits</h1>
-    {% for visit in country.visit_set.all %}
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">{{ visit.get_purpose_display }} Trip</span>
-          <p>Start Date: {{ visit.start }}</p>
-          <p>End Date: {{ visit.end }}</p>
-          <p>Highlight: {{ visit.highlight }}</p>
-          <p>Roadtrip: {{ visit.roadtrip }}</p>  
-        </div>
-      </div>  
-    {% endfor %}
+<br>
+<h2>Add a visit!</h2>
+<div class="card">
+  <div class="card-content">
+    <form action="{% url 'add_visit' country.id %}" method="POST">
+      {% csrf_token %}
+      {{ visit_form.as_p }}
+      <input type="submit" class="btn" value="Add Visit">
+    </form>
+  </div>
+</div>
 
-    {% if country.visits > 0 %}
-    {% endif %}
+<script>
+  const startDateEl = document.getElementById('id_start');
+  M.Datepicker.init(startDateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+  
+  const endDateEl = document.getElementById('id_end');
+  M.Datepicker.init(endDateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  const purposeEl = document.getElementById('id_purpose');
+  M.FormSelect.init(purposeEl);
+
+  const roadtripEl = document.getElementById('id_roadtrip');
+  console.log(roadtripEl)
+  M.CheckBox.init(roadtripEl);
+</script>
 
 {% endblock %}

@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Country
+from .forms import VisitForm
  
 
 
@@ -17,7 +18,11 @@ def countries_index(request):
 
 def countries_detail(request, country_id):
   country = Country.objects.get(id=country_id)
-  return render(request, 'countries/detail.html', { 'country': country })
+  visit_form = VisitForm()
+  return render(request, 'countries/detail.html', { 
+    'country': country,
+    'visit_form': visit_form 
+  })
 
 class CountryCreate(CreateView):
   model = Country
@@ -30,3 +35,11 @@ class CountryUpdate(UpdateView):
 class CountryDelete(DeleteView):
   model = Country
   success_url = '/countries'
+
+def add_visit(request, country_id):
+  form = VisitForm(request.POST)
+  if form.is_valid():
+    new_visit = form.save(commit=False)
+    new_visit.country_id = country_id
+    new_visit.save()
+  return redirect('detail', country_id=country_id)

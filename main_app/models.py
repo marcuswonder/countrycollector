@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django import forms
 
 PURPOSES = (
     ('L', 'Leisure'),
@@ -25,10 +26,11 @@ class Country(models.Model):
 
 
 class Visit(models.Model):
+    title = models.CharField(max_length=100)
     start = models.DateField('Start Date')
     end = models.DateField('End Date')
     highlight = models.TextField(max_length=250)
-    roadtrip = models.BooleanField(default=False)
+    roadtrip = models.BooleanField('Roadtrip')
     purpose = models.CharField(        
         max_length=1,
         choices=PURPOSES,
