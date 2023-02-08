@@ -63,7 +63,7 @@ class Trip(models.Model):
         default=PURPOSES[0][0]
     )
 
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    countries = models.ManyToManyField(Country)
 
     cities = models.ManyToManyField(City)
 
