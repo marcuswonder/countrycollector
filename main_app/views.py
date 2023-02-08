@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Country
+from .models import Country, Trip
 from .forms import TripForm
  
 
@@ -16,12 +16,22 @@ def countries_index(request):
   countries = Country.objects.all()
   return render(request, 'countries/index.html', { 'countries': countries })
 
+def trips_index(request):
+  trips = Trip.objects.all()
+  return render(request, 'trips/index.html', { 'trips': trips })
+
 def countries_detail(request, country_id):
   country = Country.objects.get(id=country_id)
   trip_form = TripForm()
   return render(request, 'countries/detail.html', { 
     'country': country,
     'trip_form': trip_form 
+  })
+
+def trips_detail(request, trip_id):
+  trip = Trip.objects.get(id=trip_id)
+  return render(request, 'trips/detail.html', { 
+    'trip': trip,
   })
 
 class CountryCreate(CreateView):
