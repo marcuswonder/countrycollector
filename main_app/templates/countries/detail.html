@@ -24,4 +24,21 @@
   </div>
 </div>
 
+
+  <h1>Previous & Upcoming Visits</h1>
+    {% for visit in country.visit_set.all %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">{{ visit.get_purpose_display }} Trip</span>
+          <p>Start Date: {{ visit.start }}</p>
+          <p>End Date: {{ visit.end }}</p>
+          <p>Highlight: {{ visit.highlight }}</p>
+          <p>Roadtrip: {{ visit.roadtrip }}</p>  
+        </div>
+      </div>  
+    {% endfor %}
+
+    {% if country.visits > 0 %}
+    {% endif %}
+
 {% endblock %}
