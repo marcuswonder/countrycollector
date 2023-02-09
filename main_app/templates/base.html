@@ -23,9 +23,11 @@
           {% if user.is_authenticated %}
             <li><a href="{% url 'new_trip' %}">Add a Trip</a></li>
             <li><a href="{% url 'trips_index' %}">See All Trips</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}
-            <li><a href="{% url 'login' %}">Log In</a></li>
-          {% endif %}
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          <li><a href="{% url 'login' %}">Log In</a></li>
+        {% endif %}
         </ul>
       </div>
     </nav>
