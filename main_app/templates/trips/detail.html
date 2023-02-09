@@ -19,45 +19,105 @@
 
 <div>
     <h3>Trip Summary</h3>
-    <table>    
-        <tr>
-            <th>Trip Detail</th>
-            <th>#</th>
-        </tr>
-        <tr>
-            <td>Countries Visited: </td>
-            <td>{{ trip.countries.all.count }}</td>
-        </tr>
-        <tr>
-            <td>Cities Visited: </td>
-            <td>{{ trip.cities.all.count }}</td>
-        </tr>
-    </table>
+    {% if trip.countries.count %}
+        <table>    
+            <tr>
+                <th>Trip Detail</th>
+                <th>#</th>
+            </tr>
+            <tr>
+                <td>Countries Visited: </td>
+                <td>{{ trip.countries.all.count }}</td>
+            </tr>
+            <tr>
+                <td>Cities Visited: </td>
+                <td>{{ trip.cities.all.count }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p>No countries or cities listed in this trip! Add some below</p>
+    {% endif %}
 </div>
-
 <br>
 
-<div>
-    <h3>Cities Visited</h3>
-    <table>    
-        <tr>
-            <th>Country</th>
-            <th>City</th>
-            <th>Population</th>
-            <th>Location</th>
-        </tr>
-        {% for c in trip.cities.all %}
-        <tr>
-            <td>{{ c.country }}</td>
-            <td>{{ c.name }}</td>
-            <td>{{ c.population }}</td>
-            <td>{{ c.location }}</td>
-            {% endfor %}
-        </tr>
-    </table>
+<h3>Cities Visited</h3>
+    {% if trip.cities.count %}
+        <table>    
+            <tr>
+                <th>Country</th>
+                <th>City</th>
+                <th>Population</th>
+                <th>Location</th>
+            </tr>
+            {% for c in trip.cities.all %}
+            <tr>
+                <td>{{ c.country }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.population }}</td>
+                <td>{{ c.location }}</td>
+                {% endfor %}
+            </tr>
+        </table>
+    {% else %}
+        <p>No cities listed in this trip! Add some below</p>
+    {% endif %}
 </div>
+<br>
+<br>
+<br>
+<br>
+<div class="col s6">
+    <h3>Add Countries to this Trip</h3>
+    {% if countries.count %}
+      {% for country in countries.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              {{ country.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_country' trip.id country.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+    <h5>{{trip.name}} Already includes All Countries Available</h5>
+    {% endif %}
+<br>
+<p>Don't see the country you visited: </p><a class="btn" href="{% url 'countries_create' %}">Add a Country</a>
 
 
+
+<div>
+
+<div class="col s6">
+    <h3>Add Cities to this Trip</h3>
+    {% if cities.count %}
+      {% for city in cities.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              {{ city.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_city' trip.id city.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+    <h5>{{trip.name}} Already includes All Cities Available</h5>
+    {% endif %}
+<br>
+
+<p>Don't see the city you visited: </p><a class="btn" href="{% url 'cities_create' %}">Add a City</a>
 
 
 

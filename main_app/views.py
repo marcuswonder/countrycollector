@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Country, Trip
+from .models import Country, Trip, City
 from .forms import TripForm
  
 
@@ -30,8 +30,12 @@ def countries_detail(request, country_id):
 
 def trips_detail(request, trip_id):
   trip = Trip.objects.get(id=trip_id)
+  countries = Country.objects.all()
+  cities = City.objects.all()
   return render(request, 'trips/detail.html', { 
     'trip': trip,
+    'countries': countries,
+    'cities': cities
   })
 
 class CountryCreate(CreateView):
@@ -40,6 +44,10 @@ class CountryCreate(CreateView):
 
 class TripCreate(CreateView):
   model = Trip
+  fields = '__all__'
+
+class CityCreate(CreateView):
+  model = City
   fields = '__all__'
 
 class CountryUpdate(UpdateView):
@@ -63,10 +71,20 @@ def add_trip(request):
   if form.is_valid():
     new_trip = form.save()
     trip_id = new_trip.id
-  return redirect('detail', trip_id=trip_id)
+    countries = Country.objects.all()
+    cities = City.objects.all()
+  return redirect('detail', trip_id=trip_id, countries=countries, cities=cities)
 
 def new_trip(request):
   trip_form = TripForm()
   return render(request, 'trips/add.html', { 
     'trip_form': trip_form 
   })
+
+def assoc_country(request, trip_id, country_id):
+    Trip.objects.get(id=trip_id).countries.add(country_id)
+    return redirect('detail', trip_id=trip_id)
+
+def assoc_city(request, trip_id, city_id):
+    Trip.objects.get(id=trip_id).cities.add(city_id)
+    return redirect('detail', trip_id=trip_id)
