@@ -17,19 +17,53 @@
     </div>
 </div>
 
-<!-- This code below is not working!! -->
-<div id="trip-container">
-    <div class="card">
-        <h3>Cities</h3>
-            {% for city in trip.cities %}
-                <div class="card-content">
-                    <p>Name: {{ city.name }}</p>
-                    <p>Country: {{ city.country }}</p>
-                    <p>Location: {{ city.location }}</p>
-                    <p>Population: {{ city.population }}</p>
-                </div>
-            {% endfor %}
-    </div>
+<div>
+    <h3>Trip Summary</h3>
+    <table>    
+        <tr>
+            <th>Trip Detail</th>
+            <th>#</th>
+        </tr>
+        <tr>
+            <td>Countries Visited: </td>
+            <td>{{ trip.countries.all.count }}</td>
+        </tr>
+        <tr>
+            <td>Cities Visited: </td>
+            <td>{{ trip.cities.all.count }}</td>
+        </tr>
+    </table>
 </div>
+
+<br>
+
+<div>
+    <h3>Cities Visited</h3>
+    <table>    
+        <tr>
+            <th>Country</th>
+            <th>City</th>
+            <th>Population</th>
+            <th>Location</th>
+        </tr>
+        {% for c in trip.cities.all %}
+        <tr>
+            <td>{{ c.country }}</td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.population }}</td>
+            <td>{{ c.location }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
 
 {% endblock %}
