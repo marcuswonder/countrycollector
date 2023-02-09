@@ -11,8 +11,25 @@
         <p>End: {{ trip.end }}</p>
         <p>Highlight: {{ trip.highlight }}</p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'trips_update' trip.id %}">Edit Trip</a>
+        <a href="{% url 'trips_delete' trip.id %}">Delete Trip</a>
+    </div>
 </div>
-  
+
+<!-- This code below is not working!! -->
+<div id="trip-container">
+    <div class="card">
+        <h3>Cities</h3>
+            {% for city in trip.cities %}
+                <div class="card-content">
+                    <p>Name: {{ city.name }}</p>
+                    <p>Country: {{ city.country }}</p>
+                    <p>Location: {{ city.location }}</p>
+                    <p>Population: {{ city.population }}</p>
+                </div>
+            {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

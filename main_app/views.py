@@ -38,18 +38,35 @@ class CountryCreate(CreateView):
   model = Country
   fields = '__all__'
 
+class TripCreate(CreateView):
+  model = Trip
+  fields = '__all__'
+
 class CountryUpdate(UpdateView):
   model = Country
+  fields = '__all__'
+
+class TripUpdate(UpdateView):
+  model = Trip
   fields = '__all__'
 
 class CountryDelete(DeleteView):
   model = Country
   success_url = '/countries'
 
-def add_trip(request, country_id):
+class TripDelete(DeleteView):
+  model = Trip
+  success_url = '/trips'
+
+def add_trip(request):
   form = TripForm(request.POST)
   if form.is_valid():
-    new_trip = form.save(commit=False)
-    new_trip.country_id = country_id
-    new_trip.save()
-  return redirect('detail', country_id=country_id)
+    new_trip = form.save()
+    trip_id = new_trip.id
+  return redirect('detail', trip_id=trip_id)
+
+def new_trip(request):
+  trip_form = TripForm()
+  return render(request, 'trips/add.html', { 
+    'trip_form': trip_form 
+  })
