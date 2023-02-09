@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django import forms
+from django.contrib.auth.models import User
 
 PURPOSES = (
     ('L', 'Leisure'),
@@ -66,6 +67,8 @@ class Trip(models.Model):
     countries = models.ManyToManyField(Country)
 
     cities = models.ManyToManyField(City)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

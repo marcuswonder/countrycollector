@@ -69,7 +69,8 @@ class TripDelete(DeleteView):
 def add_trip(request):
   form = TripForm(request.POST)
   if form.is_valid():
-    new_trip = form.save()
+    new_trip = form.save(commit=False)
+    new_trip.save()
     trip_id = new_trip.id
     countries = Country.objects.all()
     cities = City.objects.all()
