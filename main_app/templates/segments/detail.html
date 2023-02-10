@@ -3,6 +3,35 @@
 
 <h1>Segment Details</h1>
 
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">{{ segment.get_segment_type_display }} Segment</span>
+        <p>Country: {{ segment.segment_country_start.name }}</p>
+      <p>Start Date: {{ segment.start_date }}</p>
+      <p>Trip: {{ segment.trip }}</p>
+        {% if segment.segment_type == "J" %}
+            <p>End Date: {{ segment.end_date }}</p>
+            <p>Start From: {{ segment.start_location }}</p>
+            Travelled: {{ segment.get_journey_type_display }}</p>
+            <p>Distance: {{ segment.distance }} {{ segment.get_distance_measurement_display }}</p>
+            <p>Duration: {{ segment.duration }} hours</p>
+        {% elif segment.segment_type == "S" %}
+            <p>Type of Stay: {{ segment.get_stay_type_display }}</p>
+            <p>Name of Stay: {{ segment.stay_name }}</p>
+            <p>Location of Stay: {{ segment.stay_location }}</p>
+            <p>Map Link: {{ segment.stay_map }}</p>
+        {% elif segment.segment_type == "A" %}
+            <p>Type of Activity: {{ segment.get_activity_type_display }}</p>
+            <p>Description: {{ segment.activity_description }}</p>
+            <p>Organisation Type: {{ segment.get_organiser_type_display }}</p>
+        {% elif segment.segment_type == "A" and segment.organiser_type == "S" %}
+            <p>Organiser: {{ segment.organiser_name }}</p>
+            <p>Email: {{ segment.organiser_email }}</p>
+            <p>Phone: {{ segment.organiser_telephone }}</p>
+        {% else %}
+      {% endif %}
+    </div>
+</div>  
 
 
 <br>

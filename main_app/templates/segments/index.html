@@ -1,30 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Segment List for {{ trip.title }} </h1>
+<h1>Segments List</h1>
 
-{% for segment in trip.segments %}
-  <div class="card">
-    <a href="{% url 'country_detail' country.id %}">
-      <div class="card-content">
-        {% if segment.segment_type == 'J' %}
-        
-        <span class="card-title">{{ country.name }}</span>
-        <p>Continent: {{ country.continent }}</p>
-        <p>Region: {{ country.region }}</p>
-        <p>Capital City: {{ country.capital_city }}</p>
-        <p>Population: {{ country.population|floatformat:0 }}</p>
-        {% if country.population > 200000000 %}
-          <p>Category: Large Country</p>
-        {% elif country.population > 50000000 %}
-          <p>Category: Large Country</p>
-          {% else %}
-          <p>Category: Small Country</p>
-        {% endif %}
-      </div>
-    </a>
+{% for segment in segments %}
+<div class="card">
+  <a href="{% url 'segment_detail' segment.id %}">
+    <div class="card-content">
+      <span class="card-title">{{ segment.get_segment_type_display }} Segment</span>
+      <p>Country: {{ segment.segment_country_start.name }}</p>
+      <p>Start Date: {{ segment.start_date }}</p>
+      <p>Trip: {{ segment.trip }}</p>
+      {% if segment.segment_type == "J" %}
+        <p>End Date: {{ segment.end_date }}</p>
+        <p>Start From: {{ segment.start_location }}</p>
+        Travelled: {{ segment.get_journey_type_display }}</p>
+        <p>Distance: {{ segment.distance }} {{ segment.get_distance_measurement_display }}</p>
+        <p>Duration: {{ segment.duration }} hours</p>
+      {% elif segment.segment_type == "S" %}
+        <p>Type of Stay: {{ segment.get_stay_type_display }}</p>
+        <p>Name of Stay: {{ segment.stay_name }}</p>
+        <p>Location of Stay: {{ segment.stay_location }}</p>
+        <p>Map Link: {{ segment.stay_map }}</p>
+      {% elif segment.segment_type == "A" %}
+        <p>Type of Activity: {{ segment.get_activity_type_display }}</p>
+        <p>Description: {{ segment.activity_description }}</p>
+        <p>Organisation Type: {{ segment.get_organiser_type_display }}</p>
+        <p>Organiser: {{ segment.organiser_name }}</p>
+        <p>Email: {{ segment.organiser_email }}</p>
+        <p>Phone: {{ segment.organiser_telephone }}</p>
+      {% endif %}
   </div>
+  </a>
+</div>  
 {% endfor %}
-    
+
     
 {% endblock %}

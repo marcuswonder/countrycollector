@@ -98,7 +98,7 @@ class Trip(models.Model):
     class Meta:
         ordering = ['-start']
 
-        
+
 class Segment(models.Model):
     segment_type = models.CharField(
         choices=SEGMENT_TYPE,
@@ -177,7 +177,7 @@ class Segment(models.Model):
     # ------------ Activity ------------
 
     activity_type = models.CharField(
-        choices=STAY_TYPE,
+        choices=ACTIVITY_TYPE,
         max_length=1,
         blank=True,
         null=True
