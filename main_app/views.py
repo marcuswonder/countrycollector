@@ -19,24 +19,29 @@ def home(request):
 def about(request):
   return render(request, 'about.html')
 
+@login_required
 def countries_index(request):
   countries = Country.objects.all()
   return render(request, 'countries/index.html', { 'countries': countries })
 
+@login_required
 def trips_index(request):
-  trips = Trip.objects.all()
+  trips = Trip.objects.filter(user=request.user)
   return render(request, 'trips/index.html', { 'trips': trips })
 
+@login_required
 def segments_index(request):
-  segments = Segment.objects.all()
+  segments = Segment.objects.filter(user=request.user)
   return render(request, 'segments/index.html', { 'segments': segments })
 
+@login_required
 def countries_detail(request, country_id):
   country = Country.objects.get(id=country_id)
   return render(request, 'countries/detail.html', { 
     'country': country,
   })
 
+@login_required
 def trips_detail(request, trip_id):
   trip = Trip.objects.get(id=trip_id)
   segments = Segment.objects.all()
@@ -47,13 +52,14 @@ def trips_detail(request, trip_id):
     'segment_form': segment_form
   })
 
+@login_required
 def segments_detail(request, segment_id):
   segment = Segment.objects.get(id=segment_id)
   return render(request, 'segments/detail.html', { 
     'segment': segment,
   })
 
-class TripCreate(CreateView):
+class TripCreate(LoginRequiredMixin, CreateView):
   model = Trip
   fields = ['title', 'start', 'end', 'highlight', 'roadtrip', 'purpose']
 
@@ -61,10 +67,7 @@ class TripCreate(CreateView):
     form.instance.user = self.request.user
     return super().form_valid(form)
 
-# class SegmentCreate(CreateView):
-#   model = Segment
-#   fields = '__all__'
-
+@login_required
 def add_segment(request, trip_id):
   form = SegmentForm(request.POST)
   if form.is_valid():
@@ -73,30 +76,28 @@ def add_segment(request, trip_id):
     new_segment.save()
   return redirect('trip_detail', trip_id=trip_id)
 
-class TripUpdate(UpdateView):
+class TripUpdate(LoginRequiredMixin, UpdateView):
   model = Trip
   fields = '__all__'
 
-class SegmentUpdate(UpdateView):
+class SegmentUpdate(LoginRequiredMixin, UpdateView):
   model = Segment
   fields = '__all__'
 
-class TripDelete(DeleteView):
+class TripDelete(LoginRequiredMixin, DeleteView):
   model = Trip
   success_url = '/trips'
 
-class SegmentDelete(DeleteView):
+class SegmentDelete(LoginRequiredMixin, DeleteView):
   model = Segment
   success_url = '/segments'
 
-# def assoc_country(request, trip_id, country_id):
-#     Trip.objects.get(id=trip_id).countries.add(country_id)
-#     return redirect('detail', trip_id=trip_id)
-
+@login_required
 def assoc_segment(request, trip_id, segment_id):
     Trip.objects.get(id=trip_id).segments.add(segment_id)
     return redirect('detail', trip_id=trip_id)
 
+@login_required
 def fetchCountries(request):
   try:
     response = requests.get("https://restcountries.com/v3.1/all").json()

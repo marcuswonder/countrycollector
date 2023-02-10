@@ -18,6 +18,7 @@ urlpatterns = [
     path('trips/<int:trip_id>/add_segment/', views.add_segment, name='add_segment'),
     path('segments/<int:pk>/update/', views.SegmentUpdate.as_view(), name='segments_update'),
     path('segments/<int:pk>/delete/', views.SegmentDelete.as_view(), name='segments_delete'),
+    path('accounts/signup/', views.signup, name='signup'),
     path('fetchcountries', views.fetchCountries, name='fetch_countries')
 ]
 # Not sure if the path(s) below are necessary any more:
