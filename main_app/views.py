@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Country, Trip, Segment
+
 import requests
+
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
- 
+
+from .forms import SegmentForm
 
 
 # Create your views here.
@@ -37,9 +40,11 @@ def countries_detail(request, country_id):
 def trips_detail(request, trip_id):
   trip = Trip.objects.get(id=trip_id)
   segments = Segment.objects.all()
+  segment_form = SegmentForm()
   return render(request, 'trips/detail.html', { 
     'trip': trip,
-    'segments': segments
+    'segments': segments,
+    'segment_form': segment_form
   })
 
 def segments_detail(request, segment_id):
@@ -56,9 +61,17 @@ class TripCreate(CreateView):
     form.instance.user = self.request.user
     return super().form_valid(form)
 
-class SegmentCreate(CreateView):
-  model = Segment
-  fields = '__all__'
+# class SegmentCreate(CreateView):
+#   model = Segment
+#   fields = '__all__'
+
+def add_segment(request, trip_id):
+  form = SegmentForm(request.POST)
+  if form.is_valid():
+    new_segment = form.save(commit=False)
+    new_segment.trip_id = trip_id
+    new_segment.save()
+  return redirect('trip_detail', trip_id=trip_id)
 
 class TripUpdate(UpdateView):
   model = Trip
