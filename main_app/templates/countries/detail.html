@@ -18,25 +18,7 @@
         <p>Category: Small Country</p>
     {% endif %}
   </div>
-  <div class="card-action">
-    <a href="{% url 'countries_update' country.id %}">Edit</a>
-    <a href="{% url 'countries_delete' country.id %}">Delete</a>
-  </div>
 </div>
-
-<h1>Previous & Upcoming Trips</h1>
-  {% for trip in country.trips_set.all %}
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">{{ trip.title }}</span>
-        <p>Trip Purpose: {{ trip.get_purpose_display }}</p>
-        <p>Start Date: {{ trip.start }}</p>
-        <p>End Date: {{ trip.end }}</p>
-        <p>Highlight: {{ trip.highlight }}</p>
-        <p>Roadtrip: {{ trip.get_roadtrip_display }}</p>  
-      </div>
-    </div>  
-  {% endfor %}
 
 <br>
 {% endblock %}

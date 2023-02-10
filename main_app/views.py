@@ -36,11 +36,9 @@ def countries_detail(request, country_id):
 
 def trips_detail(request, trip_id):
   trip = Trip.objects.get(id=trip_id)
-  countries = Country.objects.all()
   segments = Segment.objects.all()
   return render(request, 'trips/detail.html', { 
     'trip': trip,
-    'countries': countries,
     'segments': segments
   })
 
@@ -50,10 +48,6 @@ def segments_detail(request, segment_id):
     'segment': segment,
   })
 
-class CountryCreate(CreateView):
-  model = Country
-  fields = '__all__'
-
 class TripCreate(CreateView):
   model = Trip
   fields = ['title', 'start', 'end', 'highlight', 'roadtrip', 'purpose']
@@ -61,15 +55,9 @@ class TripCreate(CreateView):
   def form_valid(self, form):
     form.instance.user = self.request.user
     return super().form_valid(form)
-  
-  # success_url = '/trips'
 
 class SegmentCreate(CreateView):
   model = Segment
-  fields = '__all__'
-
-class CountryUpdate(UpdateView):
-  model = Country
   fields = '__all__'
 
 class TripUpdate(UpdateView):
@@ -80,10 +68,6 @@ class SegmentUpdate(UpdateView):
   model = Segment
   fields = '__all__'
 
-class CountryDelete(DeleteView):
-  model = Country
-  success_url = '/countries'
-
 class TripDelete(DeleteView):
   model = Trip
   success_url = '/trips'
@@ -92,9 +76,9 @@ class SegmentDelete(DeleteView):
   model = Segment
   success_url = '/segments'
 
-def assoc_country(request, trip_id, country_id):
-    Trip.objects.get(id=trip_id).countries.add(country_id)
-    return redirect('detail', trip_id=trip_id)
+# def assoc_country(request, trip_id, country_id):
+#     Trip.objects.get(id=trip_id).countries.add(country_id)
+#     return redirect('detail', trip_id=trip_id)
 
 def assoc_segment(request, trip_id, segment_id):
     Trip.objects.get(id=trip_id).segments.add(segment_id)
