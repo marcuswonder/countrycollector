@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Country, Trip, City
-from .forms import TripForm
  
 
 
@@ -22,10 +21,8 @@ def trips_index(request):
 
 def countries_detail(request, country_id):
   country = Country.objects.get(id=country_id)
-  trip_form = TripForm()
   return render(request, 'countries/detail.html', { 
     'country': country,
-    'trip_form': trip_form 
   })
 
 def trips_detail(request, trip_id):
@@ -44,7 +41,13 @@ class CountryCreate(CreateView):
 
 class TripCreate(CreateView):
   model = Trip
-  fields = '__all__'
+  fields = ['title', 'start', 'end', 'highlight', 'roadtrip', 'purpose', 'countries', 'cities']
+
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+  
+  # success_url = '/trips'
 
 class CityCreate(CreateView):
   model = City
@@ -65,22 +68,6 @@ class CountryDelete(DeleteView):
 class TripDelete(DeleteView):
   model = Trip
   success_url = '/trips'
-
-def add_trip(request):
-  form = TripForm(request.POST)
-  print(form.is_valid())
-  if form.is_valid():
-    new_trip = form.save(commit=False)
-    form.instance.user = request.user
-    new_trip.save()
-    trip_id = new_trip.id
-  return redirect('trip_detail', trip_id=trip_id)
-
-def new_trip(request):
-  trip_form = TripForm()
-  return render(request, 'trips/add.html', { 
-    'trip_form': trip_form 
-  })
 
 def assoc_country(request, trip_id, country_id):
     Trip.objects.get(id=trip_id).countries.add(country_id)

@@ -21,7 +21,7 @@
         <ul class="right">
           <li><a href="{% url 'about' %}">About</a></li>
           {% if user.is_authenticated %}
-            <li><a href="{% url 'new_trip' %}">Add a Trip</a></li>
+            <li><a href="{% url 'trips_create' %}">Add a Trip</a></li>
             <li><a href="{% url 'trips_index' %}">See All Trips</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}

@@ -25,7 +25,7 @@ class Country(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'country_id': self.id})
+        return reverse('country_detail', kwargs={'country_id': self.id})
     
     class Meta:
         verbose_name_plural = "countries"
@@ -74,7 +74,7 @@ class Trip(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('trip', kwargs={'pk': self.id})
+        return reverse('trip_detail', kwargs={'trip_id': self.id})
 
     class Meta:
         ordering = ['-start']

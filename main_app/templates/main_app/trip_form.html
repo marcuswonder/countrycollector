@@ -3,14 +3,48 @@
 {% block content %}
 {% if object %}
     <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
-  {% else %}
+{% else %}
     <h1>Add Trip</h1>
-  {% endif %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        </table>
-        <input type="submit" value="Submit!" class="btn">
-    </form>
-{% endblock %}
+{% endif %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit!" class="btn">
+  </form>
+
+<script>
+  const startDateEl = document.getElementById('id_start');
+  M.Datepicker.init(startDateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  const endDateEl = document.getElementById('id_end');
+  M.Datepicker.init(endDateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  const roadtripEl = document.getElementById('id_roadtrip');
+  M.FormSelect.init(roadtripEl);
+  
+  const purposeEl = document.getElementById('id_purpose');
+  M.FormSelect.init(purposeEl);
+
+  const countriesEl = document.getElementById('id_countries');
+  M.FormSelect.init(countriesEl);
+
+  const citiesEl = document.getElementById('id_cities');
+  M.FormSelect.init(citiesEl);
+
+  const selectEl = document.getElementById('id_meal');
+  M.FormSelect.init(selectEl);
+</script>
+
+    {% endblock %}
