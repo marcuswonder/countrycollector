@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if object %}
+    <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+  {% else %}
+    <h1>Add Segment</h1>
+  {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="Submit!" class="btn">
+    </form>
+
+
+    <script>
+      const segmentTypeEl = document.getElementById('id_segment_type');
+      M.FormSelect.init(segmentTypeEl);
+
+      const startDateEl = document.getElementById('id_start_date');
+      M.Datepicker.init(startDateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+      });
+    
+      const endDateEl = document.getElementById('id_end_date');
+      M.Datepicker.init(endDateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+      });
+    
+      const segmentCountryStartEl = document.getElementById('id_segment_country_start');
+      M.FormSelect.init(segmentCountryStartEl);
+      
+      const journeyTypeEl = document.getElementById('id_journey_type');
+      M.FormSelect.init(journeyTypeEl);
+    
+      const distanceMeasurementEl = document.getElementById('id_distance_measurement');
+      M.FormSelect.init(distanceMeasurementEl);
+
+      const stayTypeEl = document.getElementById('id_stay_type');
+      M.FormSelect.init(stayTypeEl);
+
+      const activityTypeEl = document.getElementById('id_activity_type');
+      M.FormSelect.init(activityTypeEl);
+
+      const organiserTypeEl = document.getElementById('id_organiser_type');
+      M.FormSelect.init(organiserTypeEl);
+    
+      const tripEl = document.getElementById('id_trip');
+      M.FormSelect.init(tripEl);
+    </script>
+    
+{% endblock %}
+
